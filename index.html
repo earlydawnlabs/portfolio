@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090d">
+
+    <title>arpit.shop — A home for my projects</title>
+
+    <meta name="description"
+          content="A central hub for websites, experiments, tools and projects hosted across arpit.shop.">
+
+    <style>
+        /* ==============================
+           RESET & VARIABLES
+        ============================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #08090d;
+            --card: #11131a;
+            --card-hover: #171a23;
+            --border: rgba(255, 255, 255, 0.09);
+            --text: #f2f3f7;
+            --muted: #8c91a1;
+            --accent: #8b7cff;
+            --green: #65e6a5;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+                         BlinkMacSystemFont, "Segoe UI", sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ==============================
+           BACKGROUND
+        ============================== */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+
+            background:
+                radial-gradient(
+                    circle at 20% 15%,
+                    rgba(115, 95, 255, 0.13),
+                    transparent 34%
+                ),
+                radial-gradient(
+                    circle at 80% 50%,
+                    rgba(55, 120, 255, 0.07),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(120, 60, 200, 0.08),
+                    transparent 40%
+                );
+        }
+
+        .grid-background {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+
+            background-image:
+                linear-gradient(
+                    rgba(255, 255, 255, 0.018) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.018) 1px,
+                    transparent 1px
+                );
+
+            background-size: 55px 55px;
+
+            mask-image: linear-gradient(
+                to bottom,
+                black,
+                transparent 90%
+            );
+        }
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+
+            padding: 28px 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 750;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+
+            background: var(--green);
+            box-shadow: 0 0 10px rgba(101, 230, 165, 0.6);
+
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.45;
+            }
+        }
+
+        /* ==============================
+           HERO
+        ============================== */
+
+        .hero {
+            max-width: 1000px;
+            margin: auto;
+
+            padding: 100px 24px 75px;
+
+            text-align: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 8px 13px;
+
+            border: 1px solid var(--border);
+            border-radius: 50px;
+
+            color: #b7b4ff;
+            background: rgba(139, 124, 255, 0.06);
+
+            font-size: 12px;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: clamp(45px, 8vw, 88px);
+            line-height: 1.05;
+            letter-spacing: -5px;
+            font-weight: 800;
+
+            margin-bottom: 25px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(
+                110deg,
+                #ffffff 5%,
+                #b5aaff 45%,
+                #7f8dff 85%
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-description {
+            max-width: 600px;
+            margin: auto;
+
+            font-size: 17px;
+            line-height: 1.8;
+
+            color: var(--muted);
+        }
+
+        .hero-description strong {
+            color: #d8d9e3;
+            font-weight: 500;
+        }
+
+        /* ==============================
+           PROJECT SECTION
+        ============================== */
+
+        .projects-section {
+            max-width: 1000px;
+            margin: auto;
+
+            padding: 0 24px 100px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 25px;
+        }
+
+        .section-heading h2 {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .project-count {
+            font-size: 12px;
+            color: var(--muted);
+
+            padding: 6px 10px;
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        /* ==============================
+           PROJECT CARDS
+        ============================== */
+
+        .project-card {
+            position: relative;
+
+            min-height: 230px;
+
+            padding: 26px;
+
+            display: flex;
+            flex-direction: column;
+
+            background: rgba(17, 19, 26, 0.82);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease,
+                background 0.25s ease;
+
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            background: var(--card-hover);
+            border-color: rgba(139, 124, 255, 0.35);
+        }
+
+        .project-card.active {
+            cursor: pointer;
+        }
+
+        .project-card.active::before {
+            content: "";
+
+            position: absolute;
+            top: -100px;
+            right: -100px;
+
+            width: 200px;
+            height: 200px;
+
+            background: var(--card-glow, rgba(139, 124, 255, 0.1));
+            filter: blur(60px);
+
+            pointer-events: none;
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 25px;
+        }
+
+        .project-icon {
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+
+            font-size: 22px;
+        }
+
+        .project-status {
+            font-size: 11px;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+
+            padding: 6px 10px;
+            border-radius: 20px;
+        }
+
+        .status-live {
+            color: #75e9b0;
+            background: rgba(101, 230, 165, 0.08);
+            border: 1px solid rgba(101, 230, 165, 0.15);
+        }
+
+        .status-soon {
+            color: #a0a4b1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+        }
+
+        .project-card h3 {
+            font-size: 23px;
+            font-weight: 700;
+            letter-spacing: -0.7px;
+
+            margin-bottom: 8px;
+        }
+
+        .project-card p {
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--muted);
+
+            max-width: 360px;
+        }
+
+        .card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-top: auto;
+            padding-top: 25px;
+        }
+
+        .project-url {
+            font-size: 12px;
+            color: #999eb0;
+        }
+
+        .arrow {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            border: 1px solid var(--border);
+
+            color: #d6d6e3;
+
+            transition: all 0.2s ease;
+        }
+
+        .project-card:hover .arrow {
+            color: white;
+            background: var(--accent);
+            border-color: var(--accent);
+
+            transform: rotate(-45deg);
+        }
+
+        /* Neon Run */
+
+        .neon-card {
+            --card-glow: rgba(0, 255, 200, 0.12);
+        }
+
+        .neon-card .project-icon {
+            background: rgba(0, 255, 200, 0.07);
+            color: #5dffdd;
+        }
+
+        /* .NET */
+
+        .dotnet-card {
+            --card-glow: rgba(100, 120, 255, 0.13);
+        }
+
+        .dotnet-card .project-icon {
+            background: rgba(120, 120, 255, 0.08);
+            color: #aaaaff;
+        }
+
+        /* Coming soon */
+
+        .coming-card {
+            min-height: 190px;
+
+            background: rgba(12, 13, 18, 0.55);
+            border-style: dashed;
+        }
+
+        .coming-card:hover {
+            transform: none;
+            background: rgba(12, 13, 18, 0.7);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .coming-card .project-icon {
+            color: #9296a4;
+        }
+
+        .coming-card h3 {
+            color: #d1d2db;
+        }
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        footer {
+            max-width: 1000px;
+            margin: auto;
+
+            padding: 25px 24px 35px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer-brand {
+            color: #d6d7e0;
+            font-weight: 600;
+        }
+
+        /* ==============================
+           ENTRANCE ANIMATION
+        ============================== */
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(18px);
+
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 22px 20px;
+            }
+
+            .hero {
+                padding: 75px 22px 60px;
+            }
+
+            .hero h1 {
+                letter-spacing: -3px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .projects-section {
+                padding: 0 20px 75px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .project-card {
+                min-height: 215px;
+                padding: 23px;
+            }
+
+            .coming-card {
+                min-height: 180px;
+            }
+
+            footer {
+                padding: 22px 20px;
+                gap: 15px;
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Accessibility: reduced motion */
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="grid-background"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            arpit<span>.</span>shop
+        </a>
+
+        <div class="nav-right">
+            <span class="status-dot"></span>
+            <span>Some projects are live</span>
+        </div>
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+
+        <div class="eyebrow fade-in">
+            <span class="status-dot"></span>
+            Personal project hub
+        </div>
+
+        <h1 class="fade-in delay-1">
+            A little corner of<br>
+            <span class="gradient-text">the internet.</span>
+        </h1>
+
+        <p class="hero-description fade-in delay-2">
+            This domain is home to a collection of websites, tools,
+            experiments and projects I've built or am building.
+            <strong>Some are live, some are still taking shape.</strong>
+            Explore what's available below.
+        </p>
+
+    </header>
+
+
+    <!-- PROJECTS -->
+    <main class="projects-section">
+
+        <div class="section-heading fade-in delay-2">
+            <h2>Explore projects</h2>
+            <span class="project-count" id="projectCount">
+                02 live projects
+            </span>
+        </div>
+
+        <div class="projects-grid">
+
+            <!-- NEON RUN -->
+            <a
+                href="https://neonrun.arpit.shop"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-card active neon-card fade-in delay-2"
+            >
+
+                <div class="card-top">
+                    <div class="project-icon">⚡</div>
+
+                    <span class="project-status status-live">
+                        ● Live
+                    </span>
+                </div>
+
+                <h3>Neon Run</h3>
+
+                <p>
+                    A neon-powered browser game. Jump in, test your reflexes
+                    and see how far you can make it.
+                </p>
+
+                <div class="card-bottom">
+                    <span class="project-url">
+                        neonrun.arpit.shop
+                    </span>
+
+                    <span class="arrow">↗</span>
+                </div>
+
+            </a>
+
+
+            <!-- DOTNET -->
+            <a
+                href="https://dotnet.arpit.shop"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-card active dotnet-card fade-in delay-3"
+            >
+
+                <div class="card-top">
+                    <div class="project-icon">⌘</div>
+
+                    <span class="project-status status-live">
+                        ● Live
+                    </span>
+                </div>
+
+                <h3>.NET</h3>
+
+                <p>
+                    A dedicated space for .NET related content,
+                    experiments, resources and projects.
+                </p>
+
+                <div class="card-bottom">
+                    <span class="project-url">
+                        dotnet.arpit.shop
+                    </span>
+
+                    <span class="arrow">↗</span>
+                </div>
+
+            </a>
+
+
+            <!-- COMING SOON 1 -->
+            <div class="project-card coming-card fade-in delay-3">
+
+                <div class="card-top">
+                    <div class="project-icon">✳</div>
+
+                    <span class="project-status status-soon">
+                        Coming soon
+                    </span>
+                </div>
+
+                <h3>Something new</h3>
+
+                <p>
+                    Another project is currently in the works.
+                    Stay tuned.
+                </p>
+
+            </div>
+
+
+            <!-- COMING SOON 2 -->
+            <div class="project-card coming-card fade-in delay-4">
+
+                <div class="card-top">
+                    <div class="project-icon">＋</div>
+
+                    <span class="project-status status-soon">
+                        Coming soon
+                    </span>
+                </div>
+
+                <h3>More to come</h3>
+
+                <p>
+                    This space will grow as new ideas turn into
+                    actual projects.
+                </p>
+
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <span>
+            © <span id="year"></span>
+            <span class="footer-brand">arpit.shop</span>
+        </span>
+
+        <span>
+            Built for ideas, experiments & things worth making.
+        </span>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        // Automatically update copyright year
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+
+        // Count live projects automatically from the cards
+        const liveProjects = document.querySelectorAll(
+            ".project-card.active"
+        ).length;
+
+        document.getElementById("projectCount").textContent =
+            `${String(liveProjects).padStart(2, "0")} live projects`;
+
+
+        // Optional subtle mouse movement glow on desktop cards
+        document.querySelectorAll(".project-card.active")
+            .forEach(card => {
+
+                card.addEventListener("mousemove", (event) => {
+
+                    const rect = card.getBoundingClientRect();
+
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    card.style.background = `
+                        radial-gradient(
+                            350px circle at ${x}px ${y}px,
+                            rgba(255,255,255,0.035),
+                            transparent 60%
+                        ),
+                        rgba(17,19,26,0.95)
+                    `;
+
+                });
+
+                card.addEventListener("mouseleave", () => {
+                    card.style.background = "";
+                });
+
+            });
+
+    </script>
+
+</body>
+</html>
